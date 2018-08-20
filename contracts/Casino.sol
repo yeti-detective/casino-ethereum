@@ -25,13 +25,13 @@ contract Casino {
   }
 
   function checkPlayerExists(address player) public constant returns(bool) {
-    for(int i = 0; i < players.length; i++) {
+    for(uint i = 0; i < players.length; i++) {
       if(players[i] == player) return true;
     }
     return false;
   }
 
-  function bet(int numberSelected) public payable {
+  function bet(uint numberSelected) public payable {
     require(!checkPlayerExists(msg.sender));
     require(numberSelected >= 1 && numberSelected <= 10);
     require(msg.value >= minimumBet);
