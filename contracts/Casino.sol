@@ -1,4 +1,4 @@
-pragma solidity 0.4.20;
+pragma solidity ^0.4.20;
 
 contract Casino {
   address public owner;
@@ -15,7 +15,7 @@ contract Casino {
 
   mapping(address => Player) public playerInfo;
 
-  function Casino(uint _minimumBet) public {
+  constructor(uint _minimumBet) public {
     owner = msg.sender;
     if(_minimumBet != 0) minimumBet = _minimumBet;
   }
@@ -69,6 +69,13 @@ contract Casino {
         winners[j].transfer(winnerEtherAmount);
       }
     }
+    resetData();
+  }
+
+  function resetData() private {
+    players.length = 0;
+    totalBet = 0;
+    numberOfBets = 0;
   }
 
   function() public payable {}
