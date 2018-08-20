@@ -71,5 +71,5 @@ contract Casino {
     }
   }
 
-  function public payable {}
+  function() public payable {}
 }
