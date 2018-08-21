@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import Web3 from 'web3';
-import fs from 'fs';
+import Fs from 'fs';
 import path from 'path';
 import './../css/index.css';
 
@@ -25,7 +25,7 @@ class App extends Component {
     }
 
     const MyContract = web3.eth.contract(
-      JSON.parse(fs.readFileSync(path.join(__dirname, 'build', 'contracts', 'Casino.json')));
+      JSON.parse(fs.readFileSync(path.join(__dirname, 'build', 'contracts', 'Casino.json')))
     )
 
     this.listItem = this.listItem.bind(this);
