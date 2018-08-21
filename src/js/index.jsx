@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import Web3 from 'web3';
+import fs from 'fs';
+import path from 'path';
 import './../css/index.css';
 
 class App extends Component {
@@ -8,8 +10,23 @@ class App extends Component {
     super(props);
     this.state = {
       lastWinner: 0,
-      timer: 0
+      numberOfBets: 0,
+      miminumBet: 0,
+      totalBet: 0,
+      maxAmountOfBets: 0
     };
+
+    if(typeof web3 != 'undefined'){
+      console.log('Using web3 detected from external source like Metamask');
+      this.web3 = new Web3(web3.currentProvider);
+    } else {
+      console.log('No web detected. Falling back to http://localhost:8545');
+      this.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+    }
+
+    const MyContract = web3.eth.contract(
+      JSON.parse(fs.readFileSync(path.join(__dirname, 'build', 'contracts', 'Casino.json')));
+    )
 
     this.listItem = this.listItem.bind(this);
     this.voteNumber = this.voteNumber.bind(this);
