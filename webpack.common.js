@@ -15,13 +15,18 @@ module.exports = {
         query: {
           presets: ['env', 'react']
         }
+      },
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader'],
+        include: /src/
       }
     ]
   },
   resolve: {
     extensions: ['.js', '.jsx', '*']
-    // alias: {
-    //   assets: path.resolve('./app/assets')
-    // }
+  },
+  node: {
+    fs: 'empty'
   }
 };
