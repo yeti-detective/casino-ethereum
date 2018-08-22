@@ -46471,14 +46471,20 @@ var App = function (_Component) {
   }
 
   _createClass(App, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      this.getAbi();
+    }
+  }, {
     key: "getAbi",
     value: function getAbi() {
       var _this2 = this;
 
-      ajax("/abi").then(function (res) {
-        var MyContract = web3.eth.contract(res.json);
-        MyContract.at("0x6ec067ddee18b0b9b73a515344e85a3cfbbe204a");
-        _this2.casino = MyContract;
+      $.ajax("/abi").then(function (res) {
+        var MyContract = web3.eth.contract(res);
+        _this2.setState({
+          casino: MyContract.at("0x6ec067ddee18b0b9b73a515344e85a3cfbbe204a")
+        });
       });
     }
   }, {
@@ -46494,7 +46500,7 @@ var App = function (_Component) {
             _this3.voteNumber(i);
           }
         },
-        "i"
+        "" + i
       );
     }
   }, {
