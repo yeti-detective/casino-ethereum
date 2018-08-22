@@ -29,11 +29,16 @@ class App extends Component {
     this.getAbi = this.getAbi.bind(this);
   }
 
+  componentDidMount() {
+    this.getAbi();
+  }
+
   getAbi() {
-    ajax("/abi").then(res => {
-      const MyContract = web3.eth.contract(res.json);
-      MyContract.at("0x6ec067ddee18b0b9b73a515344e85a3cfbbe204a");
-      this.casino = MyContract;
+    $.ajax("/abi").then(res => {
+      const MyContract = web3.eth.contract(res);
+      this.setState({
+        casino: MyContract.at("0x6ec067ddee18b0b9b73a515344e85a3cfbbe204a")
+      });
     });
   }
 
@@ -45,7 +50,7 @@ class App extends Component {
           this.voteNumber(i);
         }}
       >
-        i
+        {`${i}`}
       </li>
     );
   }
