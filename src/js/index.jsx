@@ -1,9 +1,7 @@
-import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import Web3 from 'web3';
-import Fs from 'fs';
-import path from 'path';
-import './../css/index.css';
+import React, { Component } from "react";
+import ReactDOM from "react-dom";
+import Web3 from "web3";
+import "./../css/index.css";
 
 class App extends Component {
   constructor(props) {
@@ -16,28 +14,37 @@ class App extends Component {
       maxAmountOfBets: 0
     };
 
-    if(typeof web3 != 'undefined'){
-      console.log('Using web3 detected from external source like Metamask');
+    if (typeof web3 != "undefined") {
+      console.log("Using web3 detected from external source like Metamask");
       this.web3 = new Web3(web3.currentProvider);
     } else {
-      console.log('No web detected. Falling back to http://localhost:8545');
-      this.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+      console.log("No web detected. Falling back to http://localhost:8545");
+      this.web3 = new Web3(
+        new Web3.providers.HttpProvider("http://localhost:8545")
+      );
     }
-
-    const MyContract = web3.eth.contract(
-      JSON.parse(fs.readFileSync(path.join(__dirname, 'build', 'contracts', 'Casino.json')))
-    )
 
     this.listItem = this.listItem.bind(this);
     this.voteNumber = this.voteNumber.bind(this);
+    this.getAbi = this.getAbi.bind(this);
+  }
+
+  getAbi() {
+    ajax("/abi").then(res => {
+      const MyContract = web3.eth.contract(res.json);
+      MyContract.at("0x6ec067ddee18b0b9b73a515344e85a3cfbbe204a");
+      this.casino = MyContract;
+    });
   }
 
   listItem(i) {
     return (
       <li
+        key={`li${i}`}
         onClick={() => {
           this.voteNumber(i);
-        }}>
+        }}
+      >
         i
       </li>
     );
@@ -67,4 +74,4 @@ class App extends Component {
   }
 }
 
-ReactDOM.render(<App />, document.querySelector('#root'));
+ReactDOM.render(<App />, document.querySelector("#root"));
